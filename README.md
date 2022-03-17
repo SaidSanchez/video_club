@@ -25,6 +25,7 @@ O podemos utilizar con supervisor
 npm run dev 
 ```
 ## Image in DokcerHub:
+https://hub.docker.com/r/saidsanchez/video_club/tags
 
 docker pull saidsanchez/video_club:video_club
 
