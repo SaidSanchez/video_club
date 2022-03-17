@@ -1,5 +1,5 @@
 const express=require('express');
-const controller=require('../controllers/directors');
+const controller=require('../controllers/member');
 const router =express.Router();
 
 router.get('/',controller.list);

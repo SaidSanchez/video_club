@@ -1,5 +1,5 @@
 const express=require('express');
-const controller=require('../controllers/directors');
+const controller=require('../controllers/copies');
 const router =express.Router();
 
 router.get('/',controller.list);
@@ -7,6 +7,8 @@ router.get('/',controller.list);
 router.get('/:id',controller.index);
 
 router.post('/',controller.create);
+
+router.post('/add/actor',controller.addActor);
 
 router.patch('/:id',controller.replace);
 

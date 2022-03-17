@@ -1,39 +1,57 @@
 const express=require('express');
-const {Director} = require('../db');
+const {Movie} = require('../db');
+const {Actors} = require('../db');
 function list(req,res,next) {
-  Director.findAll({include:['movies']})
+  Movie.findAll({include:['director']})
           .then(objects => res.json(objects))
           .catch(err=> res.send(err));
 }
 
 function index(req,res,next) {
   const id=req.params.id;
-  Director.findByPk(id)
+  Movie.findByPk(id)
           .then(object => res.json(object))
           .catch(err => res.send(err));
 }
 
+
 function create(req,res,next) {
-  const name=req.body.name;
-  const lastName=req.body.lastName;
-  let director=new Object ({
-    name:name,
-    lastName:lastName
+  const title=req.body.title;
+  const directorId =req.body.directorId;
+  const generoId= req.body.generoID;
+  let movie=new Object ({
+    title:title,
+    directorId:directorId,
+    generoId:generoId
   });
 
-Director.create(director)
+Movie.create(movie)
         .then(obj => res.json(obj))
         .catch(err => res.send(err));
 }
 
+function addActor(req,res,next){
+  const idMovie=req.body.idMovie;
+  const idActor=req.body.idActor;
+
+  Movie.findByPk(idMovie)
+        .then((movie)=>{
+          Actors.findByPk(idActor).then((actor)=>{
+            movie.addActor(actor);
+            res.json(movie);
+          }).catch(err => res.send(err));
+        }).catch(err => res.send(err));
+}
+
+
 function replace(req,res,next) {
   const id=req.params.id;
-  Director.fineByPk(id)
+  Movie.fineByPk(id)
           .then(()=>{
-            const name = req.body.name ? req.body.name : "";
-            const lastName = req.body.lastName ? req.body.lastName : "";
-            object.update({name:name, lastName:lastName})
-                  .then(director => res.json(director))
+            const title = req.body.title ? req.body.title : "";
+
+            object.update({title:title})
+                  .then(movie => res.json(movie))
                   .catch(err => res.json(err));
           }).catch(err => res.json(err));
 
@@ -41,23 +59,23 @@ function replace(req,res,next) {
 
 function edit(req,res,next) {
   const id=req.params.id;
-  Director.fineByPk(id)
+  /*Movie.fineByPk(id)
           .then(()=>{
             const name = req.body.name ? req.body.name : object.name;
             const lastName = req.body.lastName ? req.body.lastName : object.lastName;
             object.update({name:name, lastName:lastName})
                   .then(director => res.json(director))
                   .catch(err => res.json(err));
-          }).catch(err => res.json(err));
+          }).catch(err => res.json(err));*/
 }
 
 function destroy(req,res,next) {
   const id=req.params.id;
-  Director.destroy({where:{id:id} })
+  Movie.destroy({where:{id:id} })
           .then(obj => res.json(obj))
           .catch(err => res.send(err));
 }
 
 module.exports={
-  list,index,create,replace,edit,destroy
+  list,index,create,replace,edit,destroy,addActor
 };
