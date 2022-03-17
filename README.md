@@ -24,6 +24,9 @@ O podemos utilizar con supervisor
 ```
 npm run dev 
 ```
+## Image in DokcerHub:
+
+docker pull saidsanchez/video_club:video_club
 
 La app será lanzada en el puerto 3307.
 
